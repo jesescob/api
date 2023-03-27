@@ -1,17 +1,26 @@
 import ballerina/http;
 
-# A service representing a network-accessible API
-# bound to port `9090`.
-service / on new http:Listener(9090) {
+// Definir la estructura de datos del producto
+type Product record {
+    string id;
+    string nombre;
+    int precio;
+};
 
-    # A resource for generating greetings
-    # + name - the input string name
-    # + return - string name with hello message or error
-    resource function get greeting(string name) returns string|error {
-        // Send a response back to the caller.
-        if name is "" {
-            return error("name should not be empty!");
-        }
-        return "Hello, " + name+ " estos son pruebas primarias" ;
+// Inicializar un arreglo de productos electrodomésticos
+Product[] productList = [
+    {id: "1", nombre: "Refrigerador", precio: 1500},
+    {id: "2", nombre: "Lavadora", precio: 800},
+    {id: "3", nombre: "Microondas", precio: 200}
+];
+
+// Crear el servicio API
+service /api on new http:Listener(9090) {
+
+    // Endpoint para obtener todos los productos electrodomésticos
+    resource function get products() returns Product[] {
+        return productList;
     }
+
+   
 }
